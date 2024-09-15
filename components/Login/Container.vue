@@ -1,32 +1,35 @@
+<script setup lang="ts">
+</script>
+
 <template>
     <div class="login-container">
         <div class="input-wrapper">
-                <Input />
+                <LoginForm />
                 </div>
-                <button class="continue-btn" disabled="">Continue</button>
                 <p class="other-page">Don't have an account? 
-                    <a class="other-page-link" href="https://auth.openai.com/authorize?client_id=TdJIcbe16WoTHtN95nyywh5E4yOo6ItG&amp;scope=openid+email+profile+offline_access+model.request+model.read+organization.read+organization.write&amp;response_type=code&amp;redirect_uri=https%3A%2F%2Fchatgpt.com%2Fapi%2Fauth%2Fcallback%2Flogin-web&amp;audience=https%3A%2F%2Fapi.openai.com%2Fv1&amp;device_id=dc930a39-8d79-459e-99ce-0b3d9bad6dc6&amp;prompt=login&amp;screen_hint=signup&amp;ext-statsig-tier=production&amp;ext-oai-did=dc930a39-8d79-459e-99ce-0b3d9bad6dc6&amp;flow=control&amp;state=-7jfRQkjB8Xt0ZeSS5vuCS-rS0-F0APHr96A26sgMzs&amp;code_challenge=JmyPB8OBNeiOziNRuAScYADoFppj-nLinCxGn7xyOyQ&amp;code_challenge_method=S256">Sign Up</a>
+                    <NuxtLink to="/signup">
+                        Sign Up
+                    </NuxtLink>
                 </p>
                 <div class="divider-wrapper">
                     <span class="divider">Or</span>
                 </div>
                 <div class="social-section">
                     <button class="social-btn">
-                        <span class="social-logo-wrapper">
-                            <img class="social-logo" src="https://auth.openai.com/assets/google-logo-NePEveMl.svg" alt="Google logo">
-                        </span>
-                        <span class="social-text">Continue with Google</span>
+                        <NuxtLink to="https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=http://localhost:3000/auth/google&prompt=consent&response_type=code&client_id=723834774366-nu46urib4h74appn1is3t81hjp559617.apps.googleusercontent.com&scope=openid%20email%20profile&access_type=offline">
+                            <span class="social-logo-wrapper">
+                                <img class="social-logo" src="https://auth.openai.com/assets/google-logo-NePEveMl.svg" alt="Google logo">
+                            </span>
+                            <span class="social-text">Continue with Google</span>
+                        </NuxtLink>
                     </button>
                     <button class="social-btn">
-                        <span class="social-logo-wrapper">
-                            <img class="social-logo" src="https://auth.openai.com/assets/microsoft-logo-BUXxQnXH.svg" alt="Microsoft logo">
-                        </span>
-                        <span class="social-text">Continue with Microsoft Account</span>
-                    </button>
-                        <button class="social-btn">
+                        <NuxtLink to="https://github.com/login/oauth/authorize?client_id=Ov23liOdAKEwxi9FPNts&redirect_uri=http://localhost:3000/auth/github&login&scope&allow_signup&allow_signup&prompt=select_account">
                             <span class="social-logo-wrapper">
-                                <img class="social-logo" src="https://auth.openai.com/assets/apple-logo-tAoxPOUx.svg" alt="Apple logo"></span>
-                            <span class="social-text">Continue with Apple</span>
+                                <img class="social-logo" src="/assets/github-mark.svg" alt="Microsoft logo">
+                            </span>
+                            <span class="social-text">Continue with Github</span>
+                        </NuxtLink>
                     </button>
                 </div>
         </div>

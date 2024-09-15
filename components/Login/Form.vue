@@ -1,7 +1,10 @@
 <template>
     <n-form ref="formRef" :model="model" :rules="rules">
-      <n-form-item path="age" label="Age">
-        <n-input v-model:value="model.age" @keydown.enter.prevent />
+      <n-form-item path="username" label="Username">
+        <n-input v-model:value="model.username" @keydown.enter.prevent />
+      </n-form-item>
+      <n-form-item path="email" label="Email">
+        <n-input v-model:value="model.email" @keydown.enter.prevent />
       </n-form-item>
       <n-form-item path="password" label="Password">
         <n-input
@@ -24,24 +27,17 @@
           @keydown.enter.prevent
         />
       </n-form-item>
-      <n-row :gutter="[0, 24]">
-        <n-col :span="24">
-          <div style="display: flex; justify-content: flex-end">
-            <n-button
-              :disabled="model.age === null"
-              round
-              type="primary"
-              @click="handleValidateButtonClick"
-            >
-              Validate
-            </n-button>
-          </div>
-        </n-col>
-      </n-row>
+      <n-flex justify="center">
+        <n-button
+          :disabled="model.username === null"
+          type="primary"
+          size="large"
+          @click="handleValidateButtonClick"
+        >
+          Continue
+        </n-button>
+      </n-flex>
     </n-form>
-  
-    <pre>{{ JSON.stringify(model, null, 2) }}
-  </pre>
   </template>
   
   <script lang="ts">
@@ -56,7 +52,8 @@
   import { useMessage } from 'naive-ui'
   
   interface ModelType {
-    age: string | null
+    email: string | null
+    username: string | null
     password: string | null
     reenteredPassword: string | null
   }
@@ -67,7 +64,8 @@
       const rPasswordFormItemRef = ref<FormItemInst | null>(null)
       const message = useMessage()
       const modelRef = ref<ModelType>({
-        age: null,
+        email: null,
+        username: null,
         password: null,
         reenteredPassword: null
       })
@@ -85,18 +83,12 @@
         return value === modelRef.value.password
       }
       const rules: FormRules = {
-        age: [
+        username: [
           {
             required: true,
             validator(rule: FormItemRule, value: string) {
               if (!value) {
-                return new Error('Age is required')
-              }
-              else if (!/^\d*$/.test(value)) {
-                return new Error('Age should be an integer')
-              }
-              else if (Number(value) < 18) {
-                return new Error('Age should be above 18')
+                return new Error('Username is required')
               }
               return true
             },
@@ -140,13 +132,29 @@
         handleValidateButtonClick(e: MouseEvent) {
           e.preventDefault()
           formRef.value?.validate(
-            (errors: Array<FormValidationError> | undefined) => {
+            async (errors: Array<FormValidationError> | undefined) => {
               if (!errors) {
-                message.success('Valid')
+                const response = await $fetch("/api/auth/login/", {
+                  method: 'POST',
+                  body: {
+                    username: modelRef.value.username,
+                    email: modelRef.value.email,
+                    password: modelRef.value.password,
+                  }
+                })
+                if(response){
+                  const access = useCookie('my-app-auth')
+                  access.value = response.access
+                  const refresh = useCookie('my-app-refresh')
+                  refresh.value = response.refresh
+
+                  await nextTick();
+                  navigateTo("/profile");
+                }
+                console.log(response)
               }
               else {
                 console.log(errors)
-                message.error('Invalid')
               }
             }
           )

@@ -1,9 +1,11 @@
-<template>
-  <div class="body">
+<template>   
+    <div class="body">
+      <n-message-provider>
         <NuxtLayout>
           <NuxtPage />
         </NuxtLayout>
-  </div>
+      </n-message-provider>
+    </div>
 </template>
 
 <style>

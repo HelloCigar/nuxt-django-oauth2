@@ -12,5 +12,6 @@
     align-items: center;
     width: 100%;
     background-color: #fff;
+    height: 50px;
 }
 </style>

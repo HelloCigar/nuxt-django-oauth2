@@ -1,3 +1,5 @@
 <template>
-    <Form />
+    <NuxtLink to="/profile">
+        test
+    </NuxtLink>
 </template>
