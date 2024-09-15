@@ -83,4 +83,9 @@ declare global {
     interface UserJWTData extends JWTData {
         user: UserData
     }
+
+    interface LoginError {
+        email?: string[]; // optional since it may not always be present
+        non_field_errors?: string[]; // optional for the same reason
+    }
 }

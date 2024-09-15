@@ -1,6 +1,5 @@
 export default defineEventHandler(async (event) => {
     const query = getQuery(event)
-    console.log(query.code)
       if (query) {
         try {
           const response = await $fetch<UserJWTData>(`${useRuntimeConfig().djangoServerUrl}/api/auth/google/`, {
@@ -11,7 +10,6 @@ export default defineEventHandler(async (event) => {
           });
       
           const auth_key = await response;    
-          console.log("google:" + auth_key)
           return auth_key;
             
           } catch (err) {

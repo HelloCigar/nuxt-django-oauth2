@@ -47,7 +47,8 @@
     FormItemInst,
     FormItemRule,
     FormRules,
-    FormValidationError
+    FormValidationError,
+    MessageProviderProps
   } from 'naive-ui'
   import { useMessage } from 'naive-ui'
   
@@ -95,6 +96,18 @@
             trigger: ['input', 'blur']
           }
         ],
+        email: [
+          {
+            required: true,
+            validator(rule: FormItemRule, value: string) {
+              if (!value) {
+                return new Error('Email is required')
+              }
+              return true
+            },
+            trigger: ['input', 'blur']
+          }
+        ],
         password: [
           {
             required: true,
@@ -134,24 +147,28 @@
           formRef.value?.validate(
             async (errors: Array<FormValidationError> | undefined) => {
               if (!errors) {
-                const response = await $fetch("/api/auth/login/", {
+                const auth_data = await $fetch("/api/auth/login/", {
                   method: 'POST',
                   body: {
                     username: modelRef.value.username,
                     email: modelRef.value.email,
                     password: modelRef.value.password,
-                  }
+                  },
+                  ignoreResponseError: true
                 })
-                if(response){
-                  const access = useCookie('my-app-auth')
-                  access.value = response.access
-                  const refresh = useCookie('my-app-refresh')
-                  refresh.value = response.refresh
 
+                if(auth_data && 'access' in auth_data){
+                  const access = useCookie('my-app-auth')
+                  access.value = auth_data.access
+                  const refresh = useCookie('my-app-refresh')
+                  refresh.value = auth_data.refresh
                   await nextTick();
                   navigateTo("/profile");
+                }else{
+                  const error: string = auth_data?.non_field_errors ? "Invalid credentials" : "Enter a valid email address"
+                  message.error(error)
                 }
-                console.log(response)
+
               }
               else {
                 console.log(errors)

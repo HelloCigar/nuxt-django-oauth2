@@ -6,7 +6,6 @@ export async function useIFetch<T>(
   options: UseFetchOptions<T> = {}
 ) {
   const accessToken = useCookie("my-app-auth");
-  console.log("from useIFetch auth-token"+ accessToken.value)
 
   const defaults: UseFetchOptions<T> = {
     baseURL: useRuntimeConfig().public.djangoServerUrl,
@@ -38,7 +37,6 @@ export async function useIFetch<T>(
 
 async function refreshToken() {
   const refreshToken = useCookie("my-app-refresh");
-  console.log("from useIFetch refresh-token"+ refreshToken.value)
 
   const { data, status } = await useFetch<{ access: string }>(
     `${useRuntimeConfig().public.djangoServerUrl}/api/auth/token/refresh/`,

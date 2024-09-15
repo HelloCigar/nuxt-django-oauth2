@@ -1,11 +1,9 @@
 <template>   
     <div class="body">
-      <n-message-provider>
         <NuxtLoadingIndicator />
         <NuxtLayout>
           <NuxtPage />
         </NuxtLayout>
-      </n-message-provider>
     </div>
 </template>
 

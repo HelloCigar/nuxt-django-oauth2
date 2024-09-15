@@ -4,7 +4,9 @@
 <template>
     <div class="login-container">
         <div class="input-wrapper">
+            <n-message-provider placement="bottom">
                 <LoginForm />
+            </n-message-provider>
                 </div>
                 <p class="other-page">Don't have an account? 
                     <NuxtLink to="/signup">
