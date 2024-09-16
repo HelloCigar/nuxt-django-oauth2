@@ -1,4 +1,4 @@
-import type { UseFetchOptions } from "#app";
+import { useLazyFetch, type UseFetchOptions } from "#app";
 import { defu } from "defu";
 
 export async function useIFetch<T>(
@@ -32,7 +32,7 @@ export async function useIFetch<T>(
 
   const params = defu(options, defaults);
 
-  return useFetch(url, params);
+  return useLazyFetch(url, params);
 }
 
 async function refreshToken() {

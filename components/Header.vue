@@ -5,7 +5,7 @@
 
 </template>
 
-<style>
+<style scoped>
 .oai-header {
     display: flex;
     justify-content: center;

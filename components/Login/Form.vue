@@ -10,20 +10,6 @@
         <n-input
           v-model:value="model.password"
           type="password"
-          @input="handlePasswordInput"
-          @keydown.enter.prevent
-        />
-      </n-form-item>
-      <n-form-item
-        ref="rPasswordFormItemRef"
-        first
-        path="reenteredPassword"
-        label="Re-enter Password"
-      >
-        <n-input
-          v-model:value="model.reenteredPassword"
-          :disabled="!model.password"
-          type="password"
           @keydown.enter.prevent
         />
       </n-form-item>
@@ -34,7 +20,7 @@
           size="large"
           @click="handleValidateButtonClick"
         >
-          Continue
+          Login
         </n-button>
       </n-flex>
     </n-form>
@@ -56,11 +42,11 @@
     email: string | null
     username: string | null
     password: string | null
-    reenteredPassword: string | null
   }
   
   export default defineComponent({
     setup() {
+      inheritAttrs: false
       const formRef = ref<FormInst | null>(null)
       const rPasswordFormItemRef = ref<FormItemInst | null>(null)
       const message = useMessage()
@@ -68,7 +54,6 @@
         email: null,
         username: null,
         password: null,
-        reenteredPassword: null
       })
       function validatePasswordStartWith(
         rule: FormItemRule,
@@ -114,34 +99,12 @@
             message: 'Password is required'
           }
         ],
-        reenteredPassword: [
-          {
-            required: true,
-            message: 'Re-entered password is required',
-            trigger: ['input', 'blur']
-          },
-          {
-            validator: validatePasswordStartWith,
-            message: 'Password is not same as re-entered password!',
-            trigger: 'input'
-          },
-          {
-            validator: validatePasswordSame,
-            message: 'Password is not same as re-entered password!',
-            trigger: ['blur', 'password-input']
-          }
-        ]
       }
       return {
         formRef,
         rPasswordFormItemRef,
         model: modelRef,
         rules,
-        handlePasswordInput() {
-          if (modelRef.value.reenteredPassword) {
-            rPasswordFormItemRef.value?.validate({ trigger: 'password-input' })
-          }
-        },
         handleValidateButtonClick(e: MouseEvent) {
           e.preventDefault()
           formRef.value?.validate(

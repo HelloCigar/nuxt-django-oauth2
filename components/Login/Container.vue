@@ -4,9 +4,7 @@
 <template>
     <div class="login-container">
         <div class="input-wrapper">
-            <n-message-provider placement="bottom">
                 <LoginForm />
-            </n-message-provider>
                 </div>
                 <p class="other-page">Don't have an account? 
                     <NuxtLink to="/signup">
@@ -14,7 +12,9 @@
                     </NuxtLink>
                 </p>
                 <div class="divider-wrapper">
-                    <span class="divider">Or</span>
+                    <n-divider>
+                        Or
+                    </n-divider>
                 </div>
                 <div class="social-section">
                     <button class="social-btn">
@@ -37,7 +37,7 @@
         </div>
 </template>
 
-<style>
+<style scoped>
 .login-container {
     background-color: #fff;
     padding: 0 40px 40px;

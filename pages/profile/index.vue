@@ -23,7 +23,7 @@ if (extra.value === null) {
 
 <template>
     <n-flex justify="center" class="w-9/12 p-24" >
-        <n-flex v-if="user_data" vertical align="center">
+        <n-flex v-if="status == 'success'" vertical align="center">
             <n-avatar
                 round
                 :size="96"
@@ -32,6 +32,9 @@ if (extra.value === null) {
             <n-h1>{{ user_data?.username}}</n-h1>
             <n-h4>{{ user_data?.email }}</n-h4>
             <Modal />
+        </n-flex>
+        <n-flex v-else vertical align="center">
+            <n-spin size="large" />
         </n-flex>
     </n-flex>
 </template>

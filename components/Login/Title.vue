@@ -4,7 +4,7 @@
     </div>
 </template>
 
-<style>
+<style scoped>
 .title-wrapper {
     padding: 40px 40px 24px;
     box-sizing: content-box;
