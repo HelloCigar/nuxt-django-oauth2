@@ -88,4 +88,20 @@ declare global {
         email?: string[]; // optional since it may not always be present
         non_field_errors?: string[]; // optional for the same reason
     }
+
+    interface Surahs {
+        id: number,
+        name: string,
+        transliteration: string,
+        translation: string,
+        type: string,
+        total_verses: number,
+    }
+
+    interface Ayahs {
+        id: number,
+        verse_id: number,
+        text: string,
+        translation: string,
+    }
 }

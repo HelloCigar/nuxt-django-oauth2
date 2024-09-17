@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Menu as MenuIcon, PersonOutline as PersonOutlineIcon, SettingsSharp as SettingsSharpIcon } from '@vicons/ionicons5'
-
 const active = ref(false)
 
 const toggleHeader = () => {
@@ -9,26 +8,22 @@ const toggleHeader = () => {
 </script>
 
 <template>
-    <n-space vertical class="h-screen">
-        <n-layout>
-            <n-scrollbar
-            class="h-screen"
-            >
-            <n-drawer v-model:show="active" :width="502" placement="left" :block-scroll="false">
+    <n-layout class="max-h-dvh h-dvh">
+        <n-drawer v-model:show="active" :width="502" placement="left" :block-scroll="false">
             <n-drawer-content title="Stoner">
             Stoner is a 1965 novel by the American writer John Williams.
             </n-drawer-content>
-            </n-drawer>
-            <n-layout-header class="block sticky top-0 z-10 py-4">
-                <n-flex justify="space-between">
-                    <n-flex justify="center" class="pl-8">
+        </n-drawer>
+        <n-layout-header style="height: 64px; padding: 20px" bordered>
+          <n-flex justify="space-between">
+                    <n-flex justify="center" class="pl-6">
                         <n-button text style="font-size: 24px" @click="toggleHeader">
                             <n-icon>
                                 <MenuIcon/>
                             </n-icon>
                         </n-button>
                     </n-flex>
-                    <n-flex justify="center" size="large" class="pr-8">
+                    <n-flex justify="center" size="large" class="pr-6">
                         <n-button text style="font-size: 24px" @click="toggleHeader">
                             <n-icon>
                                 <PersonOutlineIcon/>
@@ -41,26 +36,9 @@ const toggleHeader = () => {
                         </n-button>
                     </n-flex>
                 </n-flex>
-            </n-layout-header>
-            <slot />
-            <n-layout-footer>Chengfu Road</n-layout-footer>
-        </n-scrollbar>
-        </n-layout>
-    </n-space>
-</template>
-
-<style scoped>
-.n-layout-footer {
-  background: rgba(128, 128, 128, 0.2);
-  padding: 24px;
-}
-
-.n-layout-sider {
-  background: rgba(128, 128, 128, 0.3);
-}
-
-.n-layout-content {
-  background: rgba(128, 128, 128, 0.4);
-}
-
-</style>
+        </n-layout-header>
+      <n-layout position="absolute" style="top: 64px; bottom: 64px" has-sider class="h-full">
+        <slot></slot>
+      </n-layout>
+    </n-layout>
+  </template>
