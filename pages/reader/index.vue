@@ -2,29 +2,39 @@
 definePageMeta({
   layout: 'new'
 })
+import type { ReaderContent } from '#build/components';
 import type { VirtualListInst } from 'naive-ui'
-const ayahListRefs = ref<VirtualListInst>()
-
 import { useThemeVars } from 'naive-ui'
 
 const themeVars = useThemeVars()
+const ayahListRefs = ref<VirtualListInst>()
+
+const childRef = ref<InstanceType<typeof ReaderContent> | null>(null)
+
+const callChildScrollToIndex = (index: number) => {
+  childRef.value?.handleScrollToIndex(index)
+}
+const callChildScrollToTop = () => {
+  childRef.value?.handleScrollToTop()
+}
 
 const selectedSurah = ref<number>(1)
 const selectSurah = (surah_id: number) => {
   selectedSurah.value = surah_id
   ayahListRefs.value?.scrollTo({ position: 'top' })
-  console.log(selectedSurah.value)
+  callChildScrollToTop()
+  console.log(ayahs.value?.length)
 }
 
 const selectedAyah = ref<number>(1)
 const selectAyah = (ayah_id: number) => {
   selectedAyah.value = ayah_id
+  callChildScrollToIndex(ayah_id)
 }
 
 const { data: surahs } = useFetch<Surahs[]>('/api/surahs');
 const { data: ayahs } = useFetch<Ayahs[]>(() => `/api/ayahs/${selectedSurah.value}`);
 const { data: surah_info } = useFetch<Surahs>(() => `/api/surahs/${selectedSurah.value}`);
-const { data: ayah_info } = useFetch<Ayahs>(() => `/api/ayahs/info?surah=${selectedSurah.value}&ayah=${selectedAyah.value}`);
 
 
 </script>
@@ -82,9 +92,10 @@ const { data: ayah_info } = useFetch<Ayahs>(() => `/api/ayahs/info?surah=${selec
                 ref="ayahListRefs"
                 item-resizable>
                 <template #default="{ item }">
+                  
                   <div 
                     class="rounded grid grid-cols-4 gap-4 items-center bg-white border border-gray-300 hover:border-green-500 hover:outline-green-500 hover:text-green-500 transition-all duration-300 cursor-pointer px-4 py-2 my-2"
-                    @click="selectSurah(item.id)"
+                    @click="selectAyah(item.verse_id)"
                   >
                     <!-- Chapter number (1 span) -->
                     <div class="col-span-4 text-center text-gray-700 font-semibold">
@@ -97,26 +108,5 @@ const { data: ayah_info } = useFetch<Ayahs>(() => `/api/ayahs/info?surah=${selec
           </n-gi>
         </n-grid>
     </n-layout-sider>
-    <ReaderContent :ayahs="ayahs" :surah_info="surah_info"/>
+    <ReaderContent :ayahs="ayahs" :surah_info="surah_info" ref="childRef"/>
 </template>
-
-<style scoped>
-.item {
-  display: flex;
-  align-items: center;
-  height: 100%;
-  justify-content: center;
-  margin-bottom: 10px;
-  background-color: rgba(0, 128, 0, 0.16);
-}
-
-.item:last-child {
-  margin-bottom: 0;
-}
-
-.avatar {
-  width: 28px;
-  border-radius: 50%;
-  margin-right: 10px;
-}
-</style>
